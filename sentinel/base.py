@@ -1,13 +1,22 @@
-import enum
+import typing
 
-sentinel = enum.auto
+from . import errors
 
-class Sentinel(enum.Enum):
-    def _generate_next_value_(name: str, *_) -> str:
-        return name
+class SentinelMeta(type):
+    def __repr__(cls: type) -> str:
+        return f'<{cls.__name__}>'
 
-    def __str__(self) -> str:
-        return f'<{self.value}>'
+    def __new__(self, name: str, bases: typing.Tuple[type], attributes: typing.Dict[str, typing.Any]) -> object:
+        cls: object = type.__new__(self, name, bases, attributes)
 
-    def __repr__(self) -> str:
-        return f'<{self.value}>'
+        def __init__(self, *args, **kwargs) -> None:
+            raise errors.SentinelInitialisationError
+
+        type.__setattr__(cls, __init__.__name__, __init__)
+
+        return cls
+
+    def __setattr__(self, name: str, value: typing.Any) -> None:
+        raise errors.SentinelMutationError
+
+class Sentinel(metaclass = SentinelMeta): pass
