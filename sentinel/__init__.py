@@ -58,3 +58,6 @@ class _SentinelMeta(type):
         return cls.__name__
 
 class Sentinel(_SentinelMeta, metaclass=_SentinelMeta): pass
+
+class Missing(Sentinel): pass
+class Default(Sentinel): pass
