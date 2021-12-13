@@ -1,6 +1,4 @@
-__all__ = ['SentinelMeta', 'Sentinel', 'Missing']
-
-class _SentinelMeta(type):
+class SentinelMeta(type):
     """ Metaclass for Sentinel """
 
     def __new__(metaclass, name, bases, namespace):
@@ -57,7 +55,7 @@ class _SentinelMeta(type):
     def __repr__(cls):
         return cls.__name__
 
-class Sentinel(_SentinelMeta, metaclass=_SentinelMeta): pass
+class Sentinel(SentinelMeta, metaclass=SentinelMeta): pass
 
 class Missing(Sentinel): pass
 class Default(Sentinel): pass
