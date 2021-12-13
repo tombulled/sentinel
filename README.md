@@ -45,5 +45,5 @@ class Example(Sentinel): pass
 
 ```python
 >>> Example
-Example
+<Example>
 ```
